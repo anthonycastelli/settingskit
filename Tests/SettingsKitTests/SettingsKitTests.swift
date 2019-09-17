@@ -68,10 +68,19 @@ final class SettingsKitTests: XCTestCase {
         XCTAssertEqual(tester.keychainBool, value?.value)
     }
     
+    func testWrappers() {
+        let tester = TestDefaults()
+        XCTAssertEqual(tester.test, tester.$test)
+        XCTAssertEqual(tester.keychainString, tester.$keychainString)
+        XCTAssertEqual(tester.keychainInt, tester.$keychainInt)
+        XCTAssertEqual(tester.keychainBool, tester.$keychainBool)
+    }
+    
     static var allTests = [
         ("testUserDefaults", testUserDefaults),
         ("testStringKeychain", testStringKeychain),
         ("testIntKeychain", testIntKeychain),
-        ("testBoolKeychain", testBoolKeychain)
+        ("testBoolKeychain", testBoolKeychain),
+        ("testWrappers", testWrappers),
     ]
 }
