@@ -8,23 +8,22 @@
 import Foundation
 
 @propertyWrapper
-public struct Setting<T> {
+public struct Setting<Value> {
     let key: String
-    let defaultValue: T
-    let type: SettingType
+    let defaultValue: Value
 
-    public init(_ key: String, defaultValue: T, type: SettingType = .userDefaults) {
+    public init(_ key: String, defaultValue: Value) {
         self.key = key
         self.defaultValue = defaultValue
-        self.type = type
     }
-
-    public var value: T {
-        get {
-            return UserDefaults.standard.object(forKey: self.key) as? T ?? self.defaultValue
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: self.key)
-        }
+    
+    public var wrappedValue: Value {
+        get { return UserDefaults.standard.object(forKey: self.key) as? Value ?? self.defaultValue }
+        set { UserDefaults.standard.set(newValue, forKey: self.key) }
+    }
+    
+    public var projectedValue: Value {
+       get { return UserDefaults.standard.object(forKey: self.key) as? Value ?? self.defaultValue }
+       set { UserDefaults.standard.set(newValue, forKey: self.key) }
     }
 }

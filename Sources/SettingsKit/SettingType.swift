@@ -7,4 +7,5 @@
 
 public enum SettingType {
     case userDefaults
+    case keychain
 }
