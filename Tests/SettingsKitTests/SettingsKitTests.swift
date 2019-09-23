@@ -6,6 +6,9 @@ final class SettingsKitTests: XCTestCase {
         @Setting("test", defaultValue: "Test Setting")
         var test: String
         
+        @Setting("optional", defaultValue: nil)
+        var optionalText: String?
+        
         @SecureSetting("string_keychain", defaultValue: "A simple keychain test")
         var keychainString: String
         
@@ -27,6 +30,19 @@ final class SettingsKitTests: XCTestCase {
         
         let savedString = UserDefaults.standard.string(forKey: "test")
         XCTAssertEqual(tester.test, savedString)
+    }
+    
+    func testOptionalUserDefaults() {
+        UserDefaults.standard.removeObject(forKey: "test")
+        
+        var tester = TestDefaults()
+        XCTAssertEqual(tester.optionalText, nil)
+        
+        tester.optionalText = "Non-Optional Value"
+        XCTAssertEqual(tester.optionalText, "Non-Optional Value")
+        
+        let savedString = UserDefaults.standard.string(forKey: "optional")
+        XCTAssertEqual(tester.optionalText, savedString)
     }
     
     func testStringKeychain() {
