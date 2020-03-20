@@ -27,3 +27,22 @@ public struct Setting<Value> {
        set { UserDefaults.standard.set(newValue, forKey: self.key) }
     }
 }
+
+@propertyWrapper
+public struct OptionalSetting<Value> {
+    let key: String
+
+    public init(_ key: String) {
+        self.key = key
+    }
+    
+    public var wrappedValue: Value? {
+        get { return UserDefaults.standard.object(forKey: self.key) as? Value }
+        set { UserDefaults.standard.set(newValue, forKey: self.key) }
+    }
+    
+    public var projectedValue: Value? {
+       get { return UserDefaults.standard.object(forKey: self.key) as? Value }
+       set { UserDefaults.standard.set(newValue, forKey: self.key) }
+    }
+}

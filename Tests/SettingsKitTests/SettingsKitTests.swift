@@ -9,6 +9,9 @@ final class SettingsKitTests: XCTestCase {
         @Setting("optional", defaultValue: nil)
         var optionalText: String?
         
+        @OptionalSetting("optional_int")
+        var optionalInt: Int?
+        
         @SecureSetting("string_keychain", defaultValue: "A simple keychain test")
         var keychainString: String
         
@@ -33,10 +36,12 @@ final class SettingsKitTests: XCTestCase {
     }
     
     func testOptionalUserDefaults() {
-        UserDefaults.standard.removeObject(forKey: "test")
+        UserDefaults.standard.removeObject(forKey: "optional")
+        UserDefaults.standard.removeObject(forKey: "optional_int")
         
         var tester = TestDefaults()
         XCTAssertEqual(tester.optionalText, nil)
+        XCTAssertEqual(tester.optionalInt, nil)
         
         tester.optionalText = "Non-Optional Value"
         XCTAssertEqual(tester.optionalText, "Non-Optional Value")
