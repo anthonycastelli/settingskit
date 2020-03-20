@@ -30,15 +30,8 @@ public struct SecureSetting<Value> where Value: Codable {
     }
     
     public var projectedValue: Value {
-       get {
-           let keychain = Keychain()
-           let value: SecureItem<Value>? = try! keychain.retrieveValue(forAccount: self.key)
-           return value?.value ?? self.defaultValue
-       }
-       set {
-           let keychain = Keychain()
-           try! keychain.store(SecureItem<Value>(key: self.key, value: newValue), key: self.key)
-       }
+        get { return self.wrappedValue }
+        set { self.wrappedValue = newValue }
     }
 }
 

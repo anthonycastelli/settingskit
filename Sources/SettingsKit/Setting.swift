@@ -11,38 +11,21 @@ import Foundation
 public struct Setting<Value> {
     let key: String
     let defaultValue: Value
+    let userDefaults: UserDefaults
 
-    public init(_ key: String, defaultValue: Value) {
+    public init(_ key: String, defaultValue: Value, in userDefaults: UserDefaults = UserDefaults.standard) {
         self.key = key
         self.defaultValue = defaultValue
+        self.userDefaults = userDefaults
     }
     
     public var wrappedValue: Value {
-        get { return UserDefaults.standard.object(forKey: self.key) as? Value ?? self.defaultValue }
-        set { UserDefaults.standard.set(newValue, forKey: self.key) }
+        get { return self.userDefaults.object(forKey: self.key) as? Value ?? self.defaultValue }
+        set { self.userDefaults.set(newValue, forKey: self.key) }
     }
     
     public var projectedValue: Value {
-       get { return UserDefaults.standard.object(forKey: self.key) as? Value ?? self.defaultValue }
-       set { UserDefaults.standard.set(newValue, forKey: self.key) }
-    }
-}
-
-@propertyWrapper
-public struct OptionalSetting<Value> {
-    let key: String
-
-    public init(_ key: String) {
-        self.key = key
-    }
-    
-    public var wrappedValue: Value? {
-        get { return UserDefaults.standard.object(forKey: self.key) as? Value }
-        set { UserDefaults.standard.set(newValue, forKey: self.key) }
-    }
-    
-    public var projectedValue: Value? {
-       get { return UserDefaults.standard.object(forKey: self.key) as? Value }
-       set { UserDefaults.standard.set(newValue, forKey: self.key) }
+        get { return self.wrappedValue }
+        set { self.wrappedValue = newValue }
     }
 }
