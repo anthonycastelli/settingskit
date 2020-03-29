@@ -12,7 +12,7 @@ public struct ComplexSetting<Value> where Value: Codable {
     let key: String
     let userDefaults: UserDefaults
     
-    public init(_ key: String, in userDefaults: UserDefaults = UserDefaults.standard) {
+    public init(_ key: String, in userDefaults: UserDefaults = .standard) {
         self.key = key
         self.userDefaults = userDefaults
     }

@@ -12,10 +12,10 @@ final class SettingsKitTests: XCTestCase {
         var test: String
         
         // Optional Setting
-        @OptionalSetting("optional")
+        @Setting("optional")
         var optionalText: String?
         
-        @OptionalSetting("optional_int")
+        @Setting("optional_int")
         var optionalInt: Int?
         
         
@@ -68,6 +68,43 @@ final class SettingsKitTests: XCTestCase {
         
         let rawOptionalInt = UserDefaults.standard.integer(forKey: "optional_int")
         XCTAssertEqual(tester.optionalInt, rawOptionalInt)
+    }
+    
+    func testSavingNilSettings() {
+        // Clear everything
+        UserDefaults.standard.removeObject(forKey: "optional")
+        UserDefaults.standard.removeObject(forKey: "optional_int")
+        
+        // Initialization
+        var tester = TestDefaults()
+        
+        // Test Reading
+        XCTAssertEqual(tester.optionalText, nil)
+        XCTAssertEqual(tester.optionalInt, nil)
+        
+        // Test Writing
+        tester.optionalText = "Non-Optional Value"
+        XCTAssertEqual(tester.optionalText, "Non-Optional Value")
+        
+        tester.optionalInt = 100
+        XCTAssertEqual(tester.optionalInt, 100)
+        
+        // Test Writing Nil
+        tester.optionalText = nil
+        XCTAssertEqual(tester.optionalText, nil)
+        
+        tester.optionalInt = nil
+        XCTAssertEqual(tester.optionalInt, nil)
+        
+        // Verification
+        let rawOptionalString = UserDefaults.standard.string(forKey: "optional")
+        XCTAssertEqual(tester.optionalText, rawOptionalString)
+        
+        let rawOptionalInt = UserDefaults.standard.integer(forKey: "optional_int")
+        XCTAssertEqual(tester.optionalInt, nil)
+        
+        // UserDefaults `integer(forKey: "")` returns a default value of 0 if something isn't present
+        XCTAssertEqual(rawOptionalInt, 0)
     }
     
     func testKeychain() {
@@ -131,6 +168,7 @@ final class SettingsKitTests: XCTestCase {
     
     static var allTests = [
         ("testSettings", testSettings),
+        ("testSavingNilSettings", testSavingNilSettings),
         ("testKeychain", testKeychain),
         ("testComplexSetting", testComplexSetting),
         ("testWrappers", testWrappers),

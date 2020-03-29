@@ -7,12 +7,13 @@
 
 import Foundation
 
+@available(*, deprecated, message: "Use the @Setting property wrapper now instead. @Setting supports both Optional and Non-Optional values. This will be removed in a future version")
 @propertyWrapper
 public struct OptionalSetting<Value> {
     let key: String
     let userDefaults: UserDefaults
 
-    public init(_ key: String, in userDefaults: UserDefaults = UserDefaults.standard) {
+    public init(_ key: String, in userDefaults: UserDefaults = .standard) {
         self.key = key
         self.userDefaults = userDefaults
     }
